@@ -6,7 +6,7 @@
 /*   By: jbergos <jbergos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:23:19 by jbergos           #+#    #+#             */
-/*   Updated: 2024/10/19 03:09:36 by jbergos          ###   ########.fr       */
+/*   Updated: 2024/10/20 20:32:09 by jbergos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,32 @@ size_t	ft_count_worlds(const char *s, char c)
 	return (count);
 }
 
+void	free_table(char **pptr, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < len)
+	{
+		free(pptr[i]);
+		++i;
+	}
+	free(pptr);
+}
+
 char	**ft_split(const char *s, char c)
 {
 	char	**pptr;
 	size_t	i;
 	size_t	j;
-	size_t	len;
 	size_t	end;
 
-	len = ft_count_worlds(s, c);
-	pptr = malloc(sizeof(char *) * (len + 1));
+	pptr = malloc(sizeof(char *) * (ft_count_worlds(s, c) + 1));
 	if (!pptr)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (j < len)
+	while (j < ft_count_worlds(s, c))
 	{
 		while (s[i] && s[i] == c)
 			++i;
@@ -53,8 +64,9 @@ char	**ft_split(const char *s, char c)
 		while (s[i + end] != '\0' && s[i + end] != c)
 			++end;
 		pptr[j++] = ft_substr(s + i, 0, end);
-		while (s[i] && s[i] != c)
-			++i;
+		if (!pptr[j - 1])
+			return (free_table(pptr, j - 1), NULL);
+		i += end;
 	}
 	pptr[j] = NULL;
 	return (pptr);

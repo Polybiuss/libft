@@ -1,4 +1,6 @@
 NAME = libft.a
+LST_DIR = lst
+OBJ = obj
 SOURCES = \
     ft_strlen.c \
     ft_isdigit.c \
@@ -34,15 +36,6 @@ SOURCES = \
 	ft_putstr_fd.c \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c \
-	ft_lstadd_back.c \
-	ft_lstsize.c \
-	ft_lstnew.c \
-	ft_lstmap.c \
-	ft_lstlast.c \
-	ft_lstiter.c \
-	ft_lstdelone.c \
-	ft_lstclear.c \
-	ft_lstadd_front.c \
     
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -50,7 +43,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar
 
-all: $(NAME) clean
+all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	$(AR) -rcs $@ $^

@@ -67,42 +67,43 @@ OBJECTS = $(SRC:%.c=$(OBJ_DIR)/%.o)
 CC = cc
 AR = ar
 CFLAGS = -Wall -Wextra -Werror
-ESC = \033
-RESET = $(ESC)[0m
-BACKGROUND = $(ESC)[48;5
-FOREGROUND = $(ESC)[38;2
-RED = ;196m
-PURPLE = ;129m
-BLUE = ;27m
-PINK = ;213m
-YELLOW = ;214m
-GREEN = ;118m
+GREEN = \033[0;32m
+CYAN = \033[0;36m
+RESET = \033[0m
+GRAY = \033[90m
+
+SUCCESS = $(GREEN)[SUCCESS]$(RESET)
+INFO = $(CYAN)[INFO]$(RESET)
 
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS)
-	@echo "$(FOREGROUND)$(BLUE)create libft.a...$(RESET)"
-	@$(AR) -rcs $@ $^
-	@echo "$(FOREGROUND)$(PINK)libft.a created!$(RESET)"
+$(OBJ_DIR):
+	@if [ ! -d ./$(OBJ_DIR) ]; then \
+		echo "$(INFO) Creating $(OBJ_DIR) directory ..."; \
+		echo "$(GRAY)mkdir -p $(OBJ_DIR)"; \
+		mkdir -p $(OBJ_DIR); \
+	fi
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	@echo "$(INFO) Compiling $<...$(GRAY)"
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(FOREGROUND)$(RED)create $(OBJ_DIR)/$<$(RESET)"
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR):
-	@echo "$(FOREGROUND)$(YELLOW)make directory if not exist..$(RESET)"
-	@mkdir -p $(OBJ_DIR)
-	@echo "$(FOREGROUND)$(GREEN)directory created$(RESET)"
+$(NAME): $(OBJECTS)
+	@echo "$(INFO) Creating $(NAME)...$(GRAY)"
+	@$(AR) -rcs $@ $^
+	@echo "$(SUCCESS) $(NAME) created succesfully!"
 
 clean:
+	@echo "$(INFO) Removing object files...$(GRAY)"
 	@rm -rf $(OBJ_DIR)
-	@echo "$(FOREGROUND)$(RED)all files .o removed$(RESET)"
+	@echo "$(SUCCESS) Objects removed."
 
 fclean: clean
+	@echo "$(INFO) Removing $(NAME)...$(GRAY)"
 	@rm -f $(NAME)
-	@echo "$(B_PURPLE)libft.a removed$(RESET)"
+	@echo "$(SUCCESS) $(NAME) removed."
 
 re: fclean all
 

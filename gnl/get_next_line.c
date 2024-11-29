@@ -6,11 +6,37 @@
 /*   By: jbergos <jbergos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 07:05:33 by jbergos           #+#    #+#             */
-/*   Updated: 2024/11/28 22:58:12 by jbergos          ###   ########.fr       */
+/*   Updated: 2024/11/29 21:08:29 by jbergos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
+
+char	*add_ptr(char *s1, char *s2)
+{
+	char	*ptr;
+	size_t	i;
+	size_t	j;
+
+	ptr = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!ptr)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		ptr[i] = s1[i];
+		++i;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		ptr[i + j] = s2[j];
+		++j;
+	}
+	ptr[i + j] = 0;
+	free(s1);
+	return (ptr);
+}
 
 char	*buffering(int fd, char *buffer)
 {
@@ -27,7 +53,7 @@ char	*buffering(int fd, char *buffer)
 		if (read_bytes <= 0)
 			break ;
 		ptr[read_bytes] = '\0';
-		buffer = ft_strjoin(buffer, ptr);
+		buffer = add_ptr(buffer, ptr);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}

@@ -70,37 +70,39 @@ CFLAGS = -Wall -Wextra -Werror
 ESC = \033
 RESET = $(ESC)[0m
 BACKGROUND = $(ESC)[48;5
-RED = $(BACKGROUND);196m
-PURPLE = $(BACKGROUND);129m
-BLUE = $(BACKGROUND);27m
-PINK = $(BACKGROUND);213m
-YELLOW = $(BACKGROUND);214m
-GREEN = $(BACKGROUND);118m
+FOREGROUND = $(ESC)[38;2
+RED = ;196m
+PURPLE = ;129m
+BLUE = ;27m
+PINK = ;213m
+YELLOW = ;214m
+GREEN = ;118m
 
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	@echo "$(BLUE)create libft.a...$(RESET)"
+	@echo "$(FOREGROUND)$(BLUE)create libft.a...$(RESET)"
 	@$(AR) -rcs $@ $^
-	@echo "$(PINK)libft.a created!$(RESET)"
+	@echo "$(FOREGROUND)$(PINK)libft.a created!$(RESET)"
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(FOREGROUND)$(RED)create $(OBJ_DIR)/$<$(RESET)"
 
 $(OBJ_DIR):
-	@echo "$(YELLOW)make directory if not exist..$(RESET)"
+	@echo "$(FOREGROUND)$(YELLOW)make directory if not exist..$(RESET)"
 	@mkdir -p $(OBJ_DIR)
-	@echo "$(GREEN)directory created$(RESET)"
+	@echo "$(FOREGROUND)$(GREEN)directory created$(RESET)"
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@echo "$(RED)all files .o removed$(RESET)"
+	@echo "$(FOREGROUND)$(RED)all files .o removed$(RESET)"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "$(PURPLE)libft.a removed$(RESET)"
+	@echo "$(B_PURPLE)libft.a removed$(RESET)"
 
 re: fclean all
 

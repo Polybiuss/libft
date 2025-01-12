@@ -6,7 +6,7 @@
 /*   By: jbergos <jbergos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 21:37:07 by jbergos           #+#    #+#             */
-/*   Updated: 2024/11/28 18:06:25 by jbergos          ###   ########.fr       */
+/*   Updated: 2025/01/13 00:29:42 by jbergos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	ft_putstr_fd(char *s, int fd)
 
 	i = 0;
 	while (s[i])
-	{
-		ft_putchar_fd(s[i], fd);
 		++i;
-	}
+	write(fd, s, i);
 }
